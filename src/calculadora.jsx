@@ -4,16 +4,16 @@ import Boton from './boton';
 
 /* eslint-disable react/function-component-definition */
 const Calculadora = () => {
-  const botones = ['AC', 'DEL', '±', '÷', '7', '8', '9', 'x', '4', '5', '6', '-', '1', '2', '3', '+', '0', '.', '%', '='];
+  const botones = ['AC', 'DEL', '±', '÷', '7', '8', '9', 'x', '4', '5', '6', '-', '1', '2', '3', '+', '.', '0', '%', '='];
   const [clicked, setClicked] = useState([]);
   const [operacion, setOperacion] = useState([false, '']);
   const [primer, setPrimer] = useState('');
 
-  const changeText = (character) => {
+  const changeText = (dato) => {
     let old = [...clicked];
-    switch (character) {
+    switch (dato) {
       case 'DEL':
-        old.pop(character);
+        old.pop(dato);
         break;
       case 'AC':
         setPrimer('');
@@ -21,19 +21,19 @@ const Calculadora = () => {
         break;
       default:
         if (clicked.length <= 9) {
-          if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '±'].includes(character)) {
+          if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '±'].includes(dato)) {
             if (clicked.length !== 9) {
               if (operacion[0]) {
                 old = [];
                 setOperacion([false, operacion[1]]);
               }
-              if (!old.includes('.') && character === '.') {
-                old.push(character);
+              if (!old.includes('.') && dato === '.') {
+                old.push(dato);
               } else {
-                old.push(character);
+                old.push(dato);
               }
               let uno = 0;
-              switch (character) {
+              switch (dato) {
                 case '±':
                   uno = clicked.join('').includes('.') ? parseFloat(clicked.join(''))
                     : parseInt(clicked.join(''), 10);
@@ -43,7 +43,7 @@ const Calculadora = () => {
                   break;
               }
             }
-          } else if (['x', '-', '+', '%', '=', '÷'].includes(character)) {
+          } else if (['x', '-', '+', '%', '=', '÷'].includes(dato)) {
             old = [];
             if (primer === '') {
               setPrimer(clicked.join(''));
@@ -52,11 +52,11 @@ const Calculadora = () => {
               let uno = 0;
               let dos = 0;
               let resultado = '';
-              let resultadodiv = 0;
+
+              uno = primer.includes('.') ? parseFloat(primer) : parseInt(primer, 10);
+              dos = segundo.includes('.') ? parseFloat(segundo) : parseInt(segundo, 10);
               switch (operacion[1]) {
                 case 'x':
-                  uno = primer.includes('.') ? parseFloat(primer) : parseInt(primer, 10);
-                  dos = segundo.includes('.') ? parseFloat(segundo) : parseInt(segundo, 10);
 
                   resultado = String(uno * dos);
 
@@ -69,12 +69,8 @@ const Calculadora = () => {
                   }
                   break;
                 case '÷':
-                  uno = primer.includes('.') ? parseFloat(primer) : parseInt(primer, 10);
-                  dos = segundo.includes('.') ? parseFloat(segundo) : parseInt(segundo, 10);
 
-                  resultadodiv = uno / dos;
-                  resultadodiv.toFixed(4);
-                  resultado = String(resultadodiv);
+                  resultado = String(uno / dos);
 
                   if (resultado.length <= 9) {
                     old.push(uno / dos);
@@ -85,8 +81,6 @@ const Calculadora = () => {
                   }
                   break;
                 case '-':
-                  uno = primer.includes('.') ? parseFloat(primer, 10) : parseInt(primer, 10);
-                  dos = segundo.includes('.') ? parseFloat(segundo, 10) : parseInt(segundo, 10);
 
                   resultado = String(uno - dos);
 
@@ -99,8 +93,6 @@ const Calculadora = () => {
                   }
                   break;
                 case '+':
-                  uno = primer.includes('.') ? parseFloat(primer, 10) : parseInt(primer, 10);
-                  dos = segundo.includes('.') ? parseFloat(segundo, 10) : parseInt(segundo, 10);
 
                   resultado = String(uno + dos);
 
@@ -113,8 +105,6 @@ const Calculadora = () => {
                   }
                   break;
                 case '%':
-                  uno = primer.includes('.') ? parseFloat(primer, 10) : parseInt(primer, 10);
-                  dos = segundo.includes('.') ? parseFloat(segundo, 10) : parseInt(segundo, 10);
 
                   resultado = String(uno % dos);
 
@@ -130,7 +120,7 @@ const Calculadora = () => {
                   break;
               }
             }
-            setOperacion([true, character]);
+            setOperacion([true, dato]);
           }
         }
     }
