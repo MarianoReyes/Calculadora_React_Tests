@@ -52,13 +52,40 @@ it('+/- funciona correctamente en la operacion', async () => {
   expect(igual).toBeInTheDocument();
   // Se selecciona el numero 6
   await userEvent.click(seis);
-  // Se mas menos para convertir en negativo
+  // Se usa el +/- para convertir en negativo
   await userEvent.click(masmenos);
   // Se selecciona la suma
   await userEvent.click(mas);
   // Se selecciona el numero 1
   await userEvent.click(uno);
-  // Se selecciona = 
+  // Se selecciona = y se espera 5 como resultado
   await userEvent.click(igual);
   expect(screen.getByText('-5')).toBeInTheDocument();
+});
+
+it('Verificar el toFixed de la division a 4 decimales siguiendo la regla de los 9 numeros max', async () => {
+  render(<Calculadora />);
+  const cero = screen.getByText('0');
+  const uno = screen.getByText('1');
+  const punto = screen.getByText('.');
+  const div = screen.getByText('÷');
+  const igual = screen.getByText('=');
+
+  expect(cero).toBeInTheDocument();
+  expect(uno).toBeInTheDocument();
+  expect(punto).toBeInTheDocument();
+  expect(div).toBeInTheDocument();
+  expect(igual).toBeInTheDocument();
+  // Se selecciona el numero 10
+  await userEvent.click(uno);
+  await userEvent.click(cero);
+  // Se selecciona la div
+  await userEvent.click(div);
+  // Se selecciona el numero 1.1
+  await userEvent.click(uno);
+  await userEvent.click(punto);
+  await userEvent.click(uno);
+  // Se selecciona = 
+  await userEvent.click(igual);
+  expect(screen.getByText('9.0909')).toBeInTheDocument();
 });
