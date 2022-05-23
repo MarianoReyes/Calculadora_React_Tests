@@ -34,7 +34,7 @@ it('Error con resultados mas largos a 9 caracteres ', async () => {
   // Se selecciona = 
   await userEvent.click(igual);
   // Al ser un numero mayor a 9 caracteres tira error
-  expect(screen.getByText('ERROR')).toBeInTheDocument();
+  expect(screen.getByText('ERROR > 9')).toBeInTheDocument();
 });
 
 it('+/- funciona correctamente en la operacion', async () => {
